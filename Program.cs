@@ -1,26 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using GradeTracker;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-
- 
-    internal class Program
+namespace GradeTracker;
+{ 
+    internal static class Program
     {
         static void Main(string[] args)
         {
-            
-            Grade?[]? grades = null; // Initialize grades to null 
+
+            Grade[] grades; // Initialize grades to null 
 
             // Placeholder for average and letter grade calculation
-            double avg = 0; // Initialize avg to avoid CS0103
+            int v = 0; // Initialize avg to avoid CS0103
             char letter = 'F'; // Initialize letter to avoid CS0103
+        do
+        {
+            
+            IGrades.GetGradesFromUser(out grades);
+        } while (grades != null || grades.Length < 5); // Get grades from user input
 
-            IGrades.GetGradesFromUser(out grades); // Get grades from user input
-                                            // Output the results
-            Console.WriteLine("Your average is: " + avg);
-            Console.WriteLine("Your grade is: " + letter);
+        if (grades == null || grades.Length == 0)
+        { 
+            throw new ArgumentException("Grades cannot be null or empty."); 
+        }                              // Output the results
+            
+            GradeLogic.CalculateAverage(grades, out v);
+            
         }
     }
+
 
 
   

@@ -1,5 +1,10 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GradeTracker
 {
@@ -26,30 +31,19 @@ namespace GradeTracker
             }
         }
 
-        public static double CalculateAverage(Grade[] grades, out int avg)
+        public static int CalculateAverage(Grade[] grades, out int v)
         {
             if (grades == null || grades.Length == 0)
                 throw new ArgumentException("Grades cannot be null or empty.");
 
             int sum = 0; // Declare and initialize 'sum' here  
-            foreach( double grade in grades) //loop through each grade in the array
+            foreach (Grade grade in grades) // Corrected foreach loop with type and identifier
             {
-                sum += grade.Value;// add the value of each grade to the sum
+                sum += grade.Value; // Add the value of each grade to the sum
             }
-            avg = sum / grades.Length;
+            v = sum / grades.Length;
             // Calculate the average by dividing the sum by the number of grades
-            return avg;
+            return v;
         }
-
-        public static void PrintReport(Grade[] grades)
-        {
-            if (grades == null || grades.Length == 0)
-                throw new ArgumentException("Grades cannot be null or empty.");
-            int average = CalculateAverage(grades);
-            string letterGrade = GetLetterGrade(average);
-            Console.WriteLine("Your average is: " + average);
-            Console.WriteLine("Your grade is: " + letterGrade);
-        }
-
     }
 }
