@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 
 namespace GradeTracker
 {
-    public struct Grade(double value)
+    public struct Grade
     {
-        private int value = value;
+        public double Value { get; private set; } // Changed to instance property with private setter  
 
-        public static int Value { get; set; } // Removed the private setter to fix S1144  
+        public Grade(double value) : this() // Added 'this()' constructor initializer  
+        {
+            if (value < 0 || value > 100)
+                throw new ArgumentOutOfRangeException(nameof(value), "Grade must be between 0 and 100.");
+            Value = value;
+        }
     }
 }
