@@ -19,21 +19,21 @@ namespace GradeTracker
 
             while (true)
             {
-
+                Console.WriteLine("Please enter 5 valid grades from 1-100 separated by a space:");
                 try
                 {
-                    Console.WriteLine("Please enter 5 valid grades from 1-100 separated by a space:");
-                    string input = Console.ReadLine();
+                    
+                    string? input = Console.ReadLine();
                     string[] parts = input.Split(' ');
-                    if (int.TryParse(parts[i], out int gradeValue) && gradeValue >= 0 && gradeValue <= 100)
+                    if (!int.TryParse(parts[i], out int value) && value >= 0 && value <= 100)
                     {
-                        int grades[i] = new Grade grade;
-
+                        Console.WriteLine($"Invalid grade '{parts[i]}'. Please enter grades between 0 and 100.");
+                        continue; // Skip to the next iteration to re-enter grades 
                     }
                     else
                     {
-                        Console.WriteLine($"Invalid grade '{parts[i]}'. Please enter grades between 0 and 100.");
-                        continue; // Skip to the next iteration to re-enter grades
+                        
+                        int grades[i] = new Grade.value;
                     }
 
                 }
@@ -75,7 +75,7 @@ namespace GradeTracker
                             else
                             {
                                 Console.WriteLine($"Invalid grade '{parts[i]}'. Please enter grades between 0 and 100.");
-                                continue; // Skip to the next iteration to re-enter grades
+                                ; // Skip to the next iteration to re-enter grades
                             }
                         }
                     }
