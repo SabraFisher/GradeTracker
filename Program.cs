@@ -16,20 +16,13 @@ namespace GradeTracker;
 
             // Placeholder for average and letter grade calculation
             int v = 0; // Initialize avg to avoid CS0103
-            char letter = 'F'; // Initialize letter to avoid CS0103
-        do
-        {
-            
-            IGrades.GetGradesFromUser(out grades);
-        } while (grades != null || grades.Length < 5); // Get grades from user input
+             // Initialize letter to avoid CS0103
+            do
+            {
+               IGrades.GetGradesFromUser(out grades);
+               IGrades.PrintReport(grades);
 
-        if (grades == null || grades.Length == 0)
-        { 
-            throw new ArgumentException("Grades cannot be null or empty."); 
-        }                              // Output the results
-            
-            GradeLogic.CalculateAverage(grades, out v);
-            
+            } while (grades != null && grades.Length < 5); // Get grades from user input
         }
     }
 

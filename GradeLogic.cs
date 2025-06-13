@@ -31,8 +31,9 @@ namespace GradeTracker
             }
         }
 
-        public static int CalculateAverage(Grade[] grades, out int v)
+        public static int CalculateAverage(Grade[] grades)
         {
+            
             if (grades == null || grades.Length == 0)
                 throw new ArgumentException("Grades cannot be null or empty.");
 
@@ -41,7 +42,7 @@ namespace GradeTracker
             {
                 sum += grade.Value; // Add the value of each grade to the sum
             }
-            v = sum / grades.Length;
+            int v = sum / grades.Length;
             // Calculate the average by dividing the sum by the number of grades
             return v;
         }

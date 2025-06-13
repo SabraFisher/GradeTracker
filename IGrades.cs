@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
@@ -14,92 +15,101 @@ namespace GradeTracker
         {
             Console.WriteLine("Welcome To Grade Tracker!");
 
-            grades = new Grade[5]; // Initialize grades array with 5 elements
+            grades = new Grade[]; // Initialize grades array with 5 elements
 
             while (true)
             {
+
                 try
                 {
                     Console.WriteLine("Please enter 5 valid grades from 1-100 separated by a space:");
                     string input = Console.ReadLine();
                     string[] parts = input.Split(' ');
-
-                    if (parts.Length != 5)
+                    if (int.TryParse(parts[i], out int gradeValue) && gradeValue >= 0 && gradeValue <= 100)
                     {
-                        throw new ArgumentException("You must enter exactly 5 grades.");
+                        int grades[i] = new Grade grade;
+
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Invalid grade '{parts[i]}'. Please enter grades between 0 and 100.");
+                        continue; // Skip to the next iteration to re-enter grades
                     }
 
-                    for (int i = 0; i < 5; i++)
-                    {
-                        if (!int.TryParse(parts[i], out int value) || value < 1 || value > 100)
-                        {
-                            throw new ArgumentException($"Invalid grade input: {parts[i]}. Grades must be integers between 1 and 100.");
-                        }
-                        grades[i] = new Grade { Value = value };
-                    }
-
-                    return grades; // Return grades after successful parsing
                 }
                 catch (ArgumentException ex)
                 {
                     Console.WriteLine(ex.Message);
+                    Console.WriteLine("Please re-enter the grades.");
+                    continue;
                 }
                 catch (FormatException ex)
                 {
                     Console.WriteLine("Invalid input format. Please try again.");
+                    continue;
                 }
                 catch (OverflowException ex)
                 {
                     Console.WriteLine("Input value is out of range. Please try again.");
+                    Console.WriteLine("Please re-enter the grades.");
+                    continue;
                 }
-            }
-        }
-
-        void CalculateAverage();
-
-        string GetLetterGrade(int grade);
-
-        static void PrintReport(Grade[] grades)
-        {
-            Console.WriteLine("Grade Report:");
-
-            for (int i = 0; i < grades.Length; i++)
-            {
-                if (grades[i].Value < 0 || grades[i].Value > 100)
+                catch (Exception ex)
                 {
-                    Console.WriteLine($"Grade {i + 1} is invalid: {grades[i].Value}. Must be between 0 and 100.");
-                    Console.WriteLine($"Please re-enter valid grade for Grade {i + 1}.");
+                    Console.WriteLine("An unexpected error occurred: " + ex.Message);
+                    Console.WriteLine("Please re-enter the grades.");
+                    continue; // Continue the loop to re-enter grades
                 }
-            }
-
-            // Assuming GetLetterGrade is implemented elsewhere
-            // string letterGrade = GetLetterGrade(grades[i]);
-            // Console.WriteLine("Your average is: " + v);
-            // Console.WriteLine("Your grade is: " + letterGrade);
-        }
-    }
-        }
-
-        void CalculateAverage();
-
-        string GetLetterGrade(int grade);
-
-        public static void PrintReport(Grade[] grades)
-        {
-            Console.WriteLine("Grade Report:");
-
-            for (int i = 0; i < grades.Length; i++)
-            {
-                if (grades[i].Value < 0 || grades[i].Value > 100)
+                // Recursive call to get grades again
+                finally
                 {
-                    Console.WriteLine($"Grade {i + 1} is invalid: {grades[i].Value}. Must be between 0 and 100.");
-                    Console.Write($"Please re-enter valid grade for Grade {i + 1}.");
+                    if (grades.Length == 5 && grades.All(g => g.Value >= 0 && g.Value <= 100))
+                    {
+                        Grade[] gradesArray = new Grade[5];
+                        for (int i = 0; i < parts.Length && i < 5; i++)
+                        {
+                            if (int.TryParse(parts[i], out int gradeValue) && gradeValue >= 0 && gradeValue <= 100)
+                            {
+                                gradesArray[i] = new Grade { Value = gradeValue };
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Invalid grade '{parts[i]}'. Please enter grades between 0 and 100.");
+                                continue; // Skip to the next iteration to re-enter grades
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid grades entered. Please try again.");
+                        // Continue the loop to re-enter grades
+                    }
+                    Console.WriteLine("Thank you for using Grade Tracker!");
+                    return grades; // Return the grades array
+                }
+
+            }
+        }
+
+        
+
+
+
+        static string PrintReport(Grade[] grades)
+        {
+            Console.WriteLine("-------------  Grade Report   ---------------:");
+            
+            if (grades.Length > 0 && grades != null) 
+            {
+                for (int i = 0; i < grades.Length; i++)
+                {
+                    Console.WriteLine($" Assignment {i + 1}: {grades[i].Value}");
+
+                    Console.WriteLine("Your average grade is: " + GradeLogic.CalculateAverage(grades) + " percent.");
+                    Console.WriteLine("Your final letter grade is: " + GradeLogic.GetLetterGrade(grades[i].Value));
                 }
             }
-            // Assuming GetLetterGrade is implemented elsewhere  
-            // string letterGrade = GetLetterGrade(grades[i]);  
-            // Console.WriteLine("Your average is: " + v);  
-            // Console.WriteLine("Your grade is: " + letterGrade);  
+            
         }
     }
 }
