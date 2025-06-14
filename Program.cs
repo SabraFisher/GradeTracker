@@ -19,7 +19,7 @@ namespace GradeTracker;
              // Initialize letter to avoid CS0103
             do
             {
-               IGrades.GetGradesFromUser(out grades);
+               IGrades.GetGradesFromUser(out grades, input);
                IGrades.PrintReport(grades);
 
             } while (grades != null && grades.Length < 5); // Get grades from user input
